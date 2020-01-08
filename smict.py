@@ -11,7 +11,7 @@ def main():
 
     #Set decay factor, alpha, and dataset
     argument_parser = ArgumentParser(description='Create a database containing distances between all products and categories')
-    argument_parser.add_argument('-d', '--dataset', help='Name of dataset in datasets directory', required=True)
+    argument_parser.add_argument('-d', '--dataset', help='Name of dataset in datasets directory', default = 'dbpedia50000')
     argument_parser.add_argument('-a', '--alpha', help='Float value of the alpha hyperparameter (default = 0.7)', default=0.7, type=float)
     arguments = argument_parser.parse_args()
 
