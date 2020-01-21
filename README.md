@@ -11,7 +11,7 @@ To run the methods used for comparison in our paper, the following packages are 
 * numpy
 * sklearn
 
-Having installed the required packages, run the code using `python heymann_garcia-molina.py`
+Having installed the required packages, run the code using `python heymann_garcia-molina.py` or `python schmitz.py`
 
 ## Runtime Instructions
 
