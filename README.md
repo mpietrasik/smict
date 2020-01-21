@@ -28,3 +28,10 @@ heymann_garcia-molina.py takes two optional command line arguments:
 | :------------------------ |:-------------:| :-------------|
 | -d --dataset 	      |	dbpedia50000  | name of dataset in datasets directory on which subsumption axioms are generated
 | -t --threshold      | 0.3           | value of the threshold hyperparameter
+
+schmitz.py takes two optional command line arguments:
+
+| Parameter                 | Default       | Description   |	
+| :------------------------ |:-------------:| :-------------|
+| -d --dataset 	      |	dbpedia50000  | name of dataset in datasets directory on which subsumption axioms are generated
+| -t --threshold      | 0.8           | value of the threshold hyperparameter
