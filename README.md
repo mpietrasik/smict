@@ -6,6 +6,11 @@ This repository contains the code for the paper "A Simple Method for Inducing Cl
 
 Our code uses the Python 3.6.6 standard library, no outside libraries are required to be installed. Simply extract the dataset archives in the datasets directory and run `python smict.py`
 
+NOTE: To run the methods used for comparison in our paper, the following packages are required:
+* networkx
+* numpy
+* sklearn
+
 ## Runtime Instructions
 
 smict.py takes two optional command line arguments:
