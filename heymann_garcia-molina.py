@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
-import networkx as nx
-import numpy as np
+from networkx import Graph, closeness_centrality
+from numpy import array
 from os import listdir, getcwd
 from pathlib import Path
 from random import shuffle
@@ -48,7 +48,7 @@ def main():
 
     tag_vector_reshaped = {}
     for tag1 in tag_vector:
-        tag_vector_reshaped[tag1] = np.array(tag_vector[tag1]).reshape(1,-1)
+        tag_vector_reshaped[tag1] = array(tag_vector[tag1]).reshape(1,-1)
         
     #Calcualte cosine similarities between tags
     similarities = {}
@@ -65,17 +65,17 @@ def main():
         i += 1
 
     #Create similarity graph based on similarities above the threshold hyperparameter and calculate closeness centrality for each tag
-    G = nx.Graph()
+    G = Graph()
     G.add_nodes_from(vocabulary)
     for pair in similarities:
         if similarities[pair] > threshold:
             G.add_edge(pair[0], pair[1])
     generality = []
-    closeness_centrality = nx.closeness_centrality(G)
+    closeness_centrality_dict = closeness_centrality(G)
 
     #Sort tags based on generality as approximated by the closeness centrality
-    for entry in closeness_centrality:
-        generality.append((entry, closeness_centrality[entry]))
+    for entry in closeness_centrality_dict:
+        generality.append((entry, closeness_centrality_dict[entry]))
     generality.sort(key=lambda x: x[1], reverse = True) 
 
     #Perform greedy algorithm to add tags to hierarchy
@@ -96,7 +96,7 @@ def main():
         in_graph[tag1] = []
 
     #Write subsumption axioms to file
-    with Path('heymann_subsuptions_axioms_' + dataset).open('w', encoding="utf-8") as output_file:
+    with Path('heymann_garcia-molina_subsuptions_axioms_' + dataset).open('w', encoding="utf-8") as output_file:
         for node1 in in_graph:
             for node2 in in_graph[node1]:
                 output_file.write(node1.lower() + " " +  node2.lower() + "\n")
