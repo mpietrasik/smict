@@ -10,7 +10,7 @@ def main():
     vocabulary = []
 
     #Set decay factor, alpha, and dataset
-    argument_parser = ArgumentParser(description='Create a database containing distances between all products and categories')
+    argument_parser = ArgumentParser(description='Generate subsumption axioms for document-tag pairs')
     argument_parser.add_argument('-d', '--dataset', help='Name of dataset in datasets directory', default = 'dbpedia50000')
     argument_parser.add_argument('-a', '--alpha', help='Float value of the alpha hyperparameter (default = 0.7)', default=0.7, type=float)
     arguments = argument_parser.parse_args()
@@ -54,14 +54,14 @@ def main():
                 else:
                     D_joint_counts[(tag2, tag1)] += 1
 
-    #Calculate generality foreach tag and sort in descending order
+    #Calculate generality for each tag and sort in descending order
     generality = []
-    for x in vocabulary:
+    for tag1 in vocabulary:
         summer = 0
-        for y in vocabulary:
-            if (x, y) in D_joint_counts:
-                summer += D_joint_counts[(x, y)] / D_counts[y]
-        generality.append((x, summer))
+        for tag2 in vocabulary:
+            if (tag1, tag2) in D_joint_counts:
+                summer += D_joint_counts[(tag1, tag2)] / D_counts[tag2]
+        generality.append((tag1, summer))
     generality.sort(key=lambda x: x[1], reverse = True) 
 
     #Initialize taxonomy with the tag with the highest generality
