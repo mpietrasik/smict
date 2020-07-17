@@ -11,12 +11,14 @@ def main():
 
     #Set decay factor, alpha, and dataset
     argument_parser = ArgumentParser(description='Generate subsumption axioms for document-tag pairs')
-    argument_parser.add_argument('-d', '--dataset', help='Name of dataset in datasets directory', default = 'dbpedia50000')
+    argument_parser.add_argument('-d', '--dataset', help='Name of dataset in datasets directory (default = dbpedia50000', default = 'dbpedia50000')
     argument_parser.add_argument('-a', '--alpha', help='Float value of the alpha hyperparameter (default = 0.7)', default=0.7, type=float)
+    argument_parser.add_argument('-f', '--f1', help='Calculate F1 against gold standard (default = False)', default=False, type=bool)
     arguments = argument_parser.parse_args()
 
     dataset = arguments.dataset
     alpha = arguments.alpha
+    calculate_f1 = arguments.f1
 
     if alpha < 0.0 or alpha > 1:
         raise ValueError('Alpha value must be between 0 and 1 inclusive.')
@@ -98,10 +100,31 @@ def main():
         in_graph_path_up[child_tag] = list([highest_similarity_tag]) + list(in_graph_path_up[highest_similarity_tag])
 
     #Write subsumption axioms to file
+    subsumption_axioms = []
     with Path('smict_subsuptions_axioms_' + dataset).open('w', encoding="utf-8") as output_file:
         for node1 in in_graph_children:
             for node2 in in_graph_children[node1]:
-                output_file.write(node1.lower() + " " +  node2.lower() + "\n")
+                subsumption_axioms.append((node1.lower(), node2.lower()))
+                output_file.write(node1.lower() + ' ' +  node2.lower() + "\n")
+
+    #Calculate F1 score
+    if calculate_f1:
+        gold_standard_axioms = []
+        with open(Path(getcwd() + '/datasets/' + dataset + '_gold_standard')) as gold_standard_file:
+            lines = gold_standard_file.readlines()
+            for line in lines:
+                gold_standard_axioms.append((line.strip().lower().split(" ")[0], line.strip().lower().split(" ")[1]))
+
+        subsumption_axioms = set(subsumption_axioms)
+        gold_standard_axioms = set(gold_standard_axioms)
+
+        true_positive = len(subsumption_axioms.intersection(gold_standard_axioms))
+        false_positive = len(subsumption_axioms.difference(gold_standard_axioms))
+        false_negative = len(gold_standard_axioms.difference(subsumption_axioms))
+
+        f1_score = true_positive / (true_positive + (0.5 * (false_positive + false_negative)))
+
+        print('F1 Score :', f1_score)
 
 if __name__ == '__main__':
     main()

@@ -33,6 +33,7 @@ smict.py takes two optional command line arguments:
 | :------------------------ |:-------------:| :-------------|
 | -d --dataset 	      |	dbpedia50000  | name of dataset in datasets directory on which subsumption axioms are generated
 | -a --alpha          | 0.7           | value of alpha, the decay hyperparameter
+| -f --f1             | False         | boolean value indicating whether or not to calculate f1 score against gold standard
 
 heymann_garcia-molina.py takes two optional command line arguments:
 
