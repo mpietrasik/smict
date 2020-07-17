@@ -2,6 +2,18 @@
 
 This repository contains the code for the paper "A Simple Method for Inducing Class Taxonomies in Knowledge Graphs" by Marcin Pietrasik and Marek Reformat.
 
+Citation:
+```
+@inproceedings{pietrasik2020simple,
+  title={A Simple Method for Inducing Class Taxonomies in Knowledge Graphs},
+  author={Pietrasik, Marcin and Reformat, Marek},
+  booktitle={European Semantic Web Conference},
+  pages={53--68},
+  year={2020},
+  organization={Springer}
+}
+```
+
 ## Installation
 
 The code for our method uses the Python 3.6.6 standard library, no outside packages are required to be installed. Simply extract the dataset archives in the datasets directory and run `python smict.py`
